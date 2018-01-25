@@ -14,8 +14,8 @@ parser = argparse.ArgumentParser(description='CNN text classificer')
 # learning
 parser.add_argument('-lr', type=float, default=0.001, help='initial learning rate [default: 0.001]')
 parser.add_argument('-epochs', type=int, default=256, help='number of epochs for train [default: 256]')
-parser.add_argument('-batch-size', type=int, default=64, help='batch size for training [default: 64]')
-parser.add_argument('-log-interval',  type=int, default=200,   help='how many steps to wait before logging training status [default: 1]')
+parser.add_argument('-batch-size', type=int, default=128, help='batch size for training [default: 64]')
+parser.add_argument('-log-interval',  type=int, default=500,   help='how many steps to wait before logging training status [default: 1]')
 parser.add_argument('-test-interval', type=int, default=500, help='how many steps to wait before testing [default: 100]')
 parser.add_argument('-save-interval', type=int, default=500, help='how many steps to wait before saving [default:500]')
 parser.add_argument('-save-dir', type=str, default='snapshot', help='where to save the snapshot')
@@ -102,10 +102,13 @@ if args.predict is not None:
     label = train.predict(args.predict, cnn, text_field, label_field, args.cuda)
     print('\n[Text]  {}\n[Label] {}\n'.format(args.predict, label))
 elif args.test:
+    train.eval(test_iter, cnn, args)
+    """
     try:
         train.eval(test_iter, cnn, args)
     except Exception as e:
         print("\nSorry. The test dataset doesn't  exist.\n")
+    """
 else:
     print()
     try:
