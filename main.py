@@ -102,7 +102,8 @@ if args.predict is not None:
     label = train.predict(args.predict, cnn, text_field, label_field, args.cuda)
     print('\n[Text]  {}\n[Label] {}\n'.format(args.predict, label))
 elif args.test:
-    train_iter, dev_iter, test_iter = mr(text_field, label_field, device=-1, repeat=False)
+    train_iter, dev_iter = mr(text_field, label_field, device=-1, repeat=False)
+    test_iter = dev_iter
     train.eval(test_iter, cnn, args)
     """
     try:
